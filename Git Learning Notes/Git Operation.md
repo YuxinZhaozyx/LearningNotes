@@ -155,8 +155,10 @@
 
 		git config --global user.name "my name"
 >修改用户名  
+
 		git config --global user.email "1111111111@qq.com"
 >修改邮箱  
+
 		git config --list
 >查看所有设置  
 
