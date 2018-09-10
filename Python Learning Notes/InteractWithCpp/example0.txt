@@ -1,0 +1,31 @@
+#include <Python.h>
+#include <iostream>
+
+static PyObject* PrintHello(PyObject* self)
+{
+	std::cout << "Hello, I am from c++" << std::endl;
+
+	Py_INCREF(Py_None);
+	return Py_None;
+}
+
+static PyObject* Add(PyObject* self, PyObject* args)
+{
+	float a, b;
+	if (!PyArg_ParseTuple(args, "ff", &a, &b))
+		return NULL;
+	return Py_BuildValue("f", a + b); 
+}
+
+
+static PyMethodDef Methods[] = {
+	{ "PrintHello", (PyCFunction)PrintHello, METH_NOARGS, "Print Hello" }, 
+	{ "Add", Add, METH_VARARGS, "Add Two Numbers"}, 
+	{ NULL, NULL , 0, NULL}
+};
+
+
+PyMODINIT_FUNC initPydBuildTest(void) 
+{
+	Py_InitModule("PydBuildTest", Methods); 
+}

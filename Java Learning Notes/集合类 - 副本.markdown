@@ -1,0 +1,266 @@
+# 集合类  
+
+## Collection接口  
+
+Collection接口提供了添加元素、删除元素、管理数据的方法，List接口和Set接口继承了Collection接口  
+
+方法 | 返回值 | 功能描述
+---- | ------- | -------
+add(E e) | boolean | 将指定对象添加到该集合中
+remove(Object o) | boolean | 将指定的对象从该集合中移除
+isEmpty() | boolean | 判断当前集合是否为空
+iterator() | Iterator<E> | 返回在此Collection的元素上进行的迭代器。用于遍历集合中的对象
+size() | int | 获取该集合中元素的个数
+toArray() | Object[] | 获得集合元素的数组
+contains(Object o) | boolean | 返回是否含有指定的元素
+clear() | void | 清空集合
+
+## List接口
+
+List接口继承了Collection接口  
+
+方法 | 放回值 | 功能描述
+---- | ----- | --------
+get(int index) | Object | 获得指定索引位置的元素
+set(int index, Object obj) | Object | 将列表中指定索引位置的对象修改为指定的对象
+sort(Comparator comp) | void | 对列表的元素通过指定比较器进行排序
+
+### List接口的实现类
+
+#### ArrayList类
+
+ArrayList类实现了可变的数组；  
+优点： 随机访问效率高，允许保存所有元素，包括null； 
+缺点： 定的索引位置插入对象或删除对象的速度较慢。    
+
+#### LinkedList类
+
+LinkedList类采用链表结构；  
+优点： 便于向集合中插入和删除对象，插入和删除对象的效率较高;  
+缺点： 随机访问效率较低。  
+
+## Set接口  
+
+Set接口继承了Collection接口  
+Set集合中的对象不按特定方式排序，只是简单地把对象加入集合中个，但Set集合中不能包含重复元素。  
+
+> Set的构造有一个约束条件，传入的Collection对象不能由重复值，必须小心操作可变对象(Mutable Object)。  如果一个Set中的可变元素改变了自身状态导致重复会出现一些问题。  
+
+### Set接口的实现类
+
+#### HashSet类
+
+HashSet类由哈希表(实质是HashMap)支持。  
+
+#### TreeSet类
+
+TreeSet类不仅实现了Set接口，还实现了java.util.SortedSet接口，因此TreeSet类实现的Set集合在遍历时按照自然顺序递增排序，也可指定比较器递增排序。  
+
+方法 | 返回值 | 功能描述
+---- | ----- | -------
+first() | Object | 返回当前第一个(最低)元素
+last() | Object |  返回当前最后一个(最高)元素
+comparator() | Comparator | 返回当前用于排序的比较器。 若使用的是自然顺序，则返回null
+headSet(E toElement) | SortedSet<E> | 返回一个新的集合[head,toElement)
+tailSet(E fromElement) | SortedSet<E> | 返回一个新的集合[fromElement,tail)
+subSet(E fromElement, E toElement) | SortedSet<E> | 返回一个新的集合[fromElement,toElement)
+floor(E e) | E | 返回<=e的最大元素，若无则返回null
+lower(E e) | E | 返回<e的最大元素，若无则返回null
+higher(E e) | E | 返回>e的最小元素，若无则返回null
+
+
+## Map接口
+
+Map接口没有继承Collection接口  
+
+Map接口提供了将key映射到value的方法。  
+一个映射不能包含重复的key，每个key最多只能映射到一个value。
+
+方法 | 返回值 | 功能描述
+---- | ------- | -------
+add(E e) | boolean | 将指定对象添加到该集合中
+remove(Object key) | Object | 将指定key的对象从该集合中移除
+isEmpty() | boolean | 判断当前集合是否为空
+size() | int | 获取该集合中元素的个数
+toArray() | Object[] | 获得集合元素的数组
+containsKey(Object key) | boolean | 返回是否含有指定key的元素
+containsValue(Object value) | boolean | 返回是否含有指定value的元素
+get(Object key) | Object | 返回key对应的value，若无则返回null
+put(Object key, Object value) | Object | 向集合中添加指定key和value的映射关系
+clear() | void | 清空集合
+keySet() | Set | 返回key值构成的Set集合
+values() | Collection | 返回value值构成的Collection集合
+
+### Map接口的实现类
+
+#### HashMap类
+
+HashMap类是基于哈希表的Map接口实现。  
+允许使用null key值和null value值。  
+HashMap类可对映射关系进行快速访问。  
+
+#### TreeMap类
+
+TreeMap类不仅实现了Map接口，还实现了java.util.SortedMap接口，映射关系具有一定顺序性。  
+不允许null key值，但允许null value值。  
+在添加、删除和定位映射关系时性能比HashMap稍差。  
+
+
+``` Java
+package myTest;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+public class CollectionTest {
+	
+	public static void ListTest() {
+		System.out.println("*********");
+		System.out.println("List test");
+		System.out.println("*********");
+		
+		// ArrayList
+		List<String> arrayList = new ArrayList<>();
+		arrayList.add("a");
+		arrayList.add("b");
+		arrayList.add("c");
+		System.out.println("将索引为2的元素删除");
+		arrayList.remove(2);
+		for(int i=0;i<arrayList.size();i++)
+			System.out.println(arrayList.get(i));
+		
+		// LinkedList
+		List<String> linkedList = new LinkedList<>();
+		linkedList.add("a");
+		linkedList.add("b");
+		linkedList.add("c");
+		System.out.println("将索引为2的元素删除");
+		linkedList.remove(2);
+		for(int i=0;i<arrayList.size();i++)
+			System.out.println(arrayList.get(i));
+		
+	}
+	
+	public static void SetTest() {
+		System.out.println("*********");
+		System.out.println(" Set test");
+		System.out.println("*********");
+		
+		// HashSet
+		Set<String> hashSet = new HashSet<>(); // 默认按从大到小排列，可通过Comparable<>接口自定义
+		hashSet.add("abc");
+		hashSet.add("abc"); // 添加已有元素将无效
+		hashSet.add("def");
+		hashSet.add("aaa");
+		Iterator<String> it1 = hashSet.iterator(); // 使用迭代器遍历hashSet
+		while(it1.hasNext())
+		{
+			System.out.println(it1.next()); // next()返回对象
+		}
+		
+		// TreeSet
+		Student stu1 = new Student("李",01111);
+		Student stu2 = new Student("陈",22344);
+		Student stu3 = new Student("王",44222);
+		Student stu4 = new Student("马",11111);
+		
+		TreeSet<Student> treeSet = new TreeSet<>();
+		treeSet.add(stu1);
+		treeSet.add(stu2);
+		treeSet.add(stu3);
+		treeSet.add(stu4);
+		Iterator<Student> it2 = treeSet.iterator();
+		System.out.println("全部集合");
+		while(it2.hasNext())
+		{
+			Student stu = (Student)it2.next();
+			System.out.println(stu.getId()+stu.getName()); // next()返回对象
+		}
+		it2 = treeSet.headSet(stu2).iterator(); // 截取排在stu2前的对象[0,stu2)
+		System.out.println("前边的集合");
+		while(it2.hasNext())
+		{
+			Student stu = (Student)it2.next();
+			System.out.println(stu.getId()+stu.getName()); // next()返回对象
+		}
+		it2 = treeSet.tailSet(stu2).iterator(); // [stu2,tail)
+		System.out.println("后边的集合");
+		while(it2.hasNext())
+		{
+			Student stu = (Student)it2.next();
+			System.out.println(stu.getId()+stu.getName()); // next()返回对象
+		}
+		it2 = treeSet.subSet(stu2, stu3).iterator(); // [stu2,stu3)
+		System.out.println("任意集合");
+		while(it2.hasNext())
+		{
+			Student stu = (Student)it2.next();
+			System.out.println(stu.getId()+stu.getName()); // next()返回对象
+		}
+	}
+	
+	public static void MapTest() {
+		Map<String,String> hashMap = new HashMap<>();
+		hashMap.put("012", "李"); // put(key,value)
+		hashMap.put("004", "王");
+		Set<String> set = hashMap.keySet(); // 获得Key
+		Iterator<String> it = set.iterator();
+		System.out.println("key集合中的元素");
+		while(it.hasNext()) {
+			System.out.println(it.next());
+		}
+		Collection<String> coll= hashMap.values();
+		it = coll.iterator();
+		System.out.println("value集合中的元素");
+		while(it.hasNext()) {
+			System.out.println(it.next());
+		}
+		
+		
+		
+	}
+	
+	public static void main(String[] args) {
+		ListTest();
+		SetTest();
+		MapTest();
+	}
+
+	
+}
+
+class Student implements Comparable<Object>{
+
+	String name;
+	long id;
+	
+	@Override
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		Student stu= (Student)o;
+		return id>stu.id?1:(id==stu.id?0:-1); // this > o 返回负整数 this == o 返回0 this < 0 返回正整数
+	}
+	
+	public Student(String name, long id) {
+		this.id=id;
+		this.name=name;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public long getId() {
+		return id;
+	}
+}
+
+```
