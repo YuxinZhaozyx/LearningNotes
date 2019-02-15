@@ -147,3 +147,41 @@ For every iteration:
 		Update set W to Wbest
 ```
 
+**python实现**：
+
+```python
+def RSSError(yArr, yMatArr):
+	return ((yArr-yMatArr)**2).sum()
+
+def StageWise(xArr, yArr, eps=0.01, numIter=100):
+	xMat = np.mat(xArr)
+	xMean = np.mean(xMat,0)
+	xVar = np.var(xMat,0)
+	xMat = (xMat - xMean)/xVar
+
+	yMat = np.mat(yArr).T
+	yMean = np.mean(yMat,0)
+	yMat = yMat - yMean
+
+	m,n = np.shape(xMat)
+	returnMat = np.zeros((numIter,n))
+	w = np.zeros((n,1))
+	wMax = w.copy()
+
+	for i in range(numIter):
+		print w.T
+		lowestError = np.inf
+		for j in range(n):
+			for sign in [-1,1]:
+				wTest = w.copy()
+				wTest[j] += eps*sign
+				yTest = xMat*wTest
+				rssE = RSSError(yMat.A, yTest.A)
+				if rssE < lowestError:
+					lowestError = rssE
+					wMax = wTest
+		w = wMax.copy()
+		returnMat[i,:] = w.T
+	return returnMat
+```
+

@@ -154,16 +154,105 @@
 + `\kern 1pc ` 1pc (1pc =12pt=4.218mm)
 + `\kern -1em` -1em
 + `\hspace{35pt}` 35pt
-+ `hphantom{xyz}` 占位宽度
-+ `hfill` 弹性宽度
++ `\hphantom{xyz}` 占位宽度
++ `\hfill` 弹性宽度
 
 ## 插图
 
 需使用 `graphicx`包
 
-`graphicspath{{<path1>}, {<path2>}}`设置图片文件夹路径
+`\graphicspath{{<path1>}, {<path2>}}`设置图片文件夹路径
 
-`includegraphics[<options>]{<filename>}`插入图片，`<filename>`可不加后缀名
+`\includegraphics[<options>]{<filename>}`插入图片，`<filename>`可不加后缀名
 
+```latex
+\documentclass{article}
 
+\usepackage{ctex,graphicx}
+
+\graphicspath{{figure/}}
+
+\begin{document}	
+	\includegraphics{Guilty_Crown.jpg} % 按图片原大小
+	
+	\includegraphics[scale=0.2]{Guilty_Crown.jpg} % 缩放到20%
+	
+	\includegraphics[height=2cm]{Guilty_Crown} % 等比例限制高度为2cm
+	
+	\includegraphics[width=2cm]{Guilty_Crown} % 等比例限制高度为2cm
+	
+	\includegraphics[width=10cm, height=10cm]{Guilty_Crown} % 同时指定高度和宽度
+	
+	\includegraphics[height=10cm, angle=45]{Guilty_Crown} % 先改变高度，再旋转45度
+
+\end{document}
+```
+
+## 表格
+
+```latex
+\documentclass{article}
+
+\usepackage{ctex}
+
+\begin{document}	
+
+\begin{tabular}{l||c|r|p{1.5cm}} % l,c,r分别为左、居中、右对齐， |指定分割竖线(可选) p{1.5cm} 固定宽度，超过时自动换行
+	\hline % 分割横线(可选)
+	Name & A & B & C \\
+	\hline \hline
+	Anne & 12 & 33 & 34 \\
+	Bob & 60 & 89 & 100 \\
+	\hline
+\end{tabular}
+
+\end{document}
+```
+
+## 浮动体环境
+
+figure浮动体与table浮动体
+
++ 常用浮动格式[!htbp]
+  + h：here当前位置。将图形放置在正文文本中给出该图形环境的地方。如果本页所剩的页面不够，这一参数将不起作用。
+  + t：top顶部。将图形放置在页面的顶部。
+  + b：bottom底部。将图形放置在页面的底部。
+  + p：page of its own浮动页。将图形放置在一只允许有浮动对象的页面上。
+  + ！：忽略美观因素，尽可能按照参数指定的方式来处理表格浮动位置。 
+  + 表格将会按照所给参数，依次尝试按照每个参数进行排版，当无法排版时，将会按照下一个参数
+
+```latex
+\documentclass{article}
+
+\usepackage{ctex,graphicx}
+
+\graphicspath{{figure/}}
+	
+\begin{document}
+
+	图片详见图\ref{myfigure}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[height=5cm]{Guilty_Crown.jpg}
+	\caption{图名称} \label{myfigure}
+\end{figure}	
+
+	表格详见表\ref{mytable}
+
+\begin{table}[htbp]
+	\caption{表格名称} \label{mytable}
+	\centering % 由于在table环境中，所以只对table环境中的下文居中对齐
+	\begin{tabular}{l||c|r|p{1.5cm}}
+		\hline
+		Name & A & B & C \\
+		\hline \hline
+		Anne & 12 & 33 & 34 \\
+		\hline
+		Bob & 60 & 89 & 100 \\
+		\hline
+	\end{tabular} 
+\end{table} 
+
+\end{document}
+```
 
